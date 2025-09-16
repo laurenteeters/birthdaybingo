@@ -1,0 +1,115 @@
+🎉 Birthday Bingo 🎉
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Bingo 🎂</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    #bingo {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 5px;
+      margin: 20px auto;
+      max-width: 500px;
+    }
+    .square {
+      background: white;
+      border: 2px solid #333;
+      padding: 20px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .square.marked {
+      background: #ffcc00;
+      text-decoration: line-through;
+    }
+    .free {
+      background: #ff69b4;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Birthday Bingo 🎉</h1>
+  <div id="bingo"></div>
+
+  <script>
+    // Placeholder prompts
+    const prompts = [
+      "Someone sings 🎤",
+      "Drink in hand 🍹",
+      "Selfie time 🤳",
+      "Dance floor 🕺",
+      "Party hat 🎉",
+      "Confetti 🎊",
+      "Cake cutting 🍰",
+      "Cheers 🥂",
+      "Inside joke 😂",
+      "Storytime 📖",
+      "Someone late ⏰",
+      "Photo bomb 📸",
+      "Lost phone 📱",
+      "DJ shoutout 🎧",
+      "Big laugh 😆",
+      "Corgi sighting 🐶",
+      "Favorite song 🎶",
+      "Spilled drink 🙈",
+      "Silly pose 🤪",
+      "Surprise gift 🎁",
+      "Group hug 🤗",
+      "New friend 👋",
+      "Birthday toast 🥳",
+      "Glow stick ✨"
+    ];
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function generateBingo() {
+      const bingo = document.getElementById("bingo");
+      bingo.innerHTML = "";
+      const shuffled = shuffle([...prompts]);
+      let i = 0;
+
+      for (let row = 0; row < 5; row++) {
+        for (let col = 0; col < 5; col++) {
+          const square = document.createElement("div");
+          square.classList.add("square");
+
+          if (row === 2 && col === 2) {
+            square.textContent = "FREE 🎂";
+            square.classList.add("free", "marked");
+          } else {
+            square.textContent = shuffled[i];
+            i++;
+          }
+
+          square.addEventListener("click", () => {
+            square.classList.toggle("marked");
+          });
+
+          bingo.appendChild(square);
+        }
+      }
+    }
+
+    generateBingo();
+  </script>
+</body>
+</html>
