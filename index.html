@@ -3,43 +3,218 @@
 <head>
   <meta charset="UTF-8">
   <title>Lauren's Birthday Bingo</title>
-  <!-- Sleek modern font -->
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Clean, bold, fun font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 20px;
       text-align: center;
-      background: radial-gradient(circle, #111 20%, #222 80%);
-      background-image: repeating-conic-gradient(from 0deg, #333 0deg 10deg, #111 10deg 20deg);
-      background-size: 100px 100px;
-      animation: shimmer 20s linear infinite;
+      background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
       color: #fff;
-      overflow-x: hidden;
+      overflow: hidden;
       position: relative;
     }
-    @keyframes shimmer {
-      0% { background-position: 0 0; }
-      100% { background-position: 200px 200px; }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     h1 {
       font-size: 52px;
       margin: 20px 0 25px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 1px;
-      position: relative;
-      display: inline-block;
-      padding: 10px 20px;
       color: #fff;
-      text-shadow: 0 0 10px rgba(255,255,255,0.6);
     }
-    /* Glitter effect behind header */
-    h1::after {
-      content: "";
+    #bingo {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 8px;
+      margin: 0 auto;
+      max-width: 500px;
+    }
+    .square {
+      background: #ff6f91;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: clamp(10px, 1.2vw, 14px);
+      font-weight: 600;
+      padding: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+      color: white;
+      position: relative;
+      word-wrap: break-word;
+    }
+    .square:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .square.marked {
+      background: #ffd93d;
+      color: #d32f2f;
+      text-decoration: line-through;
+      box-shadow: inset 0 0 12px #ff4081;
+    }
+    .free {
+      background: linear-gradient(135deg, #ff4081, #ffeb3b);
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px black;
+    }
+    #winner {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 72px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 20px #ff4081, 0 0 40px #ffd93d;
+      animation: pulse 1s infinite alternate;
+      z-index: 1000;
+      cursor: pointer;
+    }
+    @keyframes pulse {
+      from { transform: translate(-50%, -50%) scale(1); }
+      to { transform: translate(-50%, -50%) scale(1.2); }
+    }
+    /* Floating disco balls & flowers */
+    .floating {
       position: absolute;
-      top: -20px;
-      left: -20px;
-      right: -20px;
-      bottom: -20px;
-      background: radial-g
+      width: 100px;
+      height: 100px;
+      opacity: 0.9;
+      z-index: 0;
+      animation: float 14s infinite ease-in-out;
+    }
+    .floating.disco {
+      background: radial-gradient(circle, #fff 20%, #ddd 40%, #aaa 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(255,255,255,0.8);
+    }
+    .floating.flower {
+      background: radial-gradient(circle at center, #ff9a9e, #fad0c4);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255,255,255,0.7);
+    }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-40px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Lauren's Birthday Bingo</h1>
+
+  <!-- Disco balls + flowers (bigger & bolder) -->
+  <div class="floating disco" style="top:10%; left:5%; animation-delay:0s;"></div>
+  <div class="floating disco" style="top:70%; left:80%; animation-delay:2s;"></div>
+  <div class="floating disco" style="top:40%; left:15%; animation-delay:4s;"></div>
+  <div class="floating disco" style="top:85%; left:10%; animation-delay:6s;"></div>
+  <div class="floating flower" style="top:20%; left:60%; animation-delay:1s;"></div>
+  <div class="floating flower" style="top:80%; left:30%; animation-delay:3s;"></div>
+  <div class="floating flower" style="top:50%; left:90%; animation-delay:5s;"></div>
+  <div class="floating flower" style="top:5%; left:85%; animation-delay:7s;"></div>
+
+  <div id="bingo"></div>
+  <div id="winner">WINNER!</div>
+
+  <script>
+    const prompts = [
+      "Do a leggie",
+      "Take a Malort shot",
+      "Get a stranger to follow Archie’s IG (@fluffycorgiarchie)",
+      "Take a selfie with Lauren",
+      "Take a selfie with the disposable camera",
+      "Tell Cole you love the Packers",
+      "Wearing something pink",
+      "Wearing something red",
+      "Cole does a cartwheel",
+      "Do a shot with Lauren",
+      "Play your favorite song on the trolley (announcing it)",
+      "Give a speech",
+      "Do a birthday cheers",
+      "Drink is spilled",
+      "Hit the bell at Federales",
+      "Shotgun a beer",
+      "Take a selfie with a stranger",
+      "Group photo",
+      "Have the bartender make you a drink of their choice",
+      "Twerk on the trolley",
+      "Get/give someone a piggyback ride"
+    ];
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function generateBingo() {
+      const bingo = document.getElementById("bingo");
+      bingo.innerHTML = "";
+      const shuffled = shuffle([...prompts]);
+      let i = 0;
+
+      for (let row = 0; row < 5; row++) {
+        for (let col = 0; col < 5; col++) {
+          const square = document.createElement("div");
+          square.classList.add("square");
+
+          if (row === 2 && col === 2) {
+            square.textContent = "FREE";
+            square.classList.add("free", "marked");
+          } else {
+            square.textContent = shuffled[i] || "✨ Coming Soon ✨";
+            i++;
+          }
+
+          square.addEventListener("click", () => {
+            square.classList.toggle("marked");
+            checkWinner();
+          });
+
+          bingo.appendChild(square);
+        }
+      }
+    }
+
+    function checkWinner() {
+      const squares = document.querySelectorAll(".square");
+      const grid = Array.from(squares).map(sq => sq.classList.contains("marked"));
+
+      const wins = [
+        [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
+        [0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],
+        [0,6,12,18,24],[4,8,12,16,20]
+      ];
+
+      for (let combo of wins) {
+        if (combo.every(index => grid[index])) {
+          const winner = document.getElementById("winner");
+          winner.style.display = "block";
+          return;
+        }
+      }
+    }
+
+    document.getElementById("winner").addEventListener("click", () => {
+      document.getElementById("winner").style.display = "none";
+    });
+
+    generateBingo();
+  </script>
+</body>
+</html>
