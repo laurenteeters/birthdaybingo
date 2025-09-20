@@ -97,7 +97,7 @@
       "Wear something pink",
       "Wear something red",
       "Cole does a cartwheel",
-      "Do a shot with Lauren",
+      "Take a shot with Lauren",
       "Play your favorite song on the trolley",
       "Give a speech",
       "Do a birthday cheers",
@@ -108,7 +108,6 @@
       "Group photo",
       "Twerk on the trolley",
       "Get/give someone a piggyback ride",
-      "Drink water (FREE space!)",
       "Drink to the G (Guinness)",
       "Change your background to Archie",
       "Cheers another trolley",
@@ -124,13 +123,13 @@
 
     function makeBoard() {
       board.innerHTML = "";
-      let selected = shuffle(prompts).slice(0, 25);
-      selected[12] = "FREE"; // center space
+      let selected = shuffle(prompts).slice(0, 24); // 24 prompts + free space
+      selected.splice(12, 0, "DRINK WATER (FREE)"); // free space in the middle
       selected.forEach((text, i) => {
         let sq = document.createElement("div");
         sq.className = "square";
         sq.innerText = text;
-        if (i === 12) sq.classList.add("marked");
+        if (i === 12) sq.classList.add("marked"); // free space auto-marked
         sq.addEventListener("click", () => {
           sq.classList.toggle("marked");
           checkWinner();
