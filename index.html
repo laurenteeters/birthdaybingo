@@ -141,26 +141,30 @@
   <script>
     const prompts = [
       "Do a leggie",
-      "Take a Malort shot",
+      "Malort shot",
       "Get a stranger to follow Archie’s IG (@fluffycorgiarchie)",
-      "Take a selfie with Lauren",
-      "Take a selfie with the disposable camera",
+      "Selfie with Lauren",
+      "Selfie with the disposable camera",
       "Tell Cole you love the Packers",
-      "Wearing something pink",
-      "Wearing something red",
+      "Wear something pink",
+      "Wear something red",
       "Cole does a cartwheel",
       "Do a shot with Lauren",
-      "Play your favorite song on the trolley (announcing it)",
+      "Play your favorite song on the trolley",
       "Give a speech",
       "Do a birthday cheers",
       "Drink is spilled",
       "Hit the bell at Federales",
       "Shotgun a beer",
-      "Take a selfie with a stranger",
+      "Selfie with a stranger",
       "Group photo",
-      "Have the bartender make you a drink of their choice",
       "Twerk on the trolley",
-      "Get/give someone a piggyback ride"
+      "Get/give someone a piggyback ride",
+      "Drink water (FREE space!)",
+      "Drink to the G (Guinness)",
+      "Change your background to Archie",
+      "Cheers another trolley",
+      "Do a shot with no hands"
     ];
 
     function shuffle(array) {
@@ -179,7 +183,7 @@
         const square = document.createElement("div");
         square.classList.add("square");
         if (i === 12) {
-          square.textContent = "FREE";
+          square.textContent = "FREE (Drink water)";
           square.classList.add("free", "marked");
         } else {
           square.textContent = shuffled[i] || "✨ Coming Soon ✨";
@@ -230,7 +234,7 @@
     // Add disco balls + flowers
     function addDecor() {
       const decorTypes = ["disco", "flower"];
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 15; i++) {
         const el = document.createElement("div");
         el.classList.add("decor", decorTypes[Math.floor(Math.random() * decorTypes.length)]);
         el.style.top = Math.random() * 100 + "vh";
